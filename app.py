@@ -73,9 +73,9 @@ def vote():
            print "This client has already has voted! His vote stamp is : " + vote_stamp
         else:
            print "This client has not voted yet!"
-        voted_option = Option.query.filter_by(poll_id=poll.id,id=vote).first() 
-        voted_option.votes += 1
-        db.session.commit()
+           voted_option = Option.query.filter_by(poll_id=poll.id,id=vote).first() 
+           voted_option.votes += 1
+           db.session.commit()
     
     # if request.method == 'GET':
     options = Option.query.filter_by(poll_id=poll.id).all()        

@@ -13,3 +13,13 @@
               "Other team"
             ]
 }
+{
+ "poll": "Linux distribution",
+ "question": "What is your favourite Linux distribution?",
+ "options": [ "Fedora",
+              "Ubuntu",
+              "CentOS",
+              "RHEL",
+              "Other"
+            ]
+}

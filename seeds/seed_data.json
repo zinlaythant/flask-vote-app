@@ -1,14 +1,15 @@
 {
- "poll": "Favourite Linux distribution",
- "question": "What is your favourite Linux distribution?",
- "options": [	"Mint",
-		"Fedora",
-		"Debian",
-		"Ubuntu",
-		"CentOS",
-		"Slackware",
-		"Alpine",
-		"Arch",
-              	"Other"
-            ]
+   "poll": "Favourite Linux distribution",
+   "question": "What is your favourite Linux distribution?",
+   "options": [
+	"Mint",
+	"Fedora",
+	"Debian",
+	"Ubuntu",
+	"Centos",
+	"Slackware",
+	"Alpine",
+	"Arch",
+	"Other"
+   ]
 }

@@ -1,21 +1,18 @@
-# Using official python runtime base image
-FROM python:2.7
+# Using plain centos base image, add pip to it
+FROM centos:7
 
 LABEL Version 1.0
 
-MAINTAINER kalise <https://github.com/kalise/>
-
-# By default, the app uses an internal sqlite db
-# Use env variable to force an external SQL engine, e.g. MySQL
-# ENV DB_TYPE "mysql"
-# ENV DB_HOST "localhost"
-# ENV DB_PORT "3306"
-# ENV DB_NAME "votedb"
-# ENV DB_USER "user"
-# ENV DB_PASS "password"
+MAINTAINER Stephen Bylo <StephenBylo@gmail.com>
 
 # Set the application directory
 WORKDIR /app
+
+# Install python and pip
+RUN yum -y update && yum -y install epel-release && yum -y install python-pip && yum -y clean all
+
+# Install MySQL-python (app dependencies) 
+RUN yum -y install MySQL-python && yum -y clean all
 
 # Install requirements.txt
 ADD requirements.txt /app/requirements.txt
@@ -27,9 +24,10 @@ ADD . /app
 # Expose the port server listen to
 EXPOSE 8080
 
-# Ensure running as non-root user
+# Ensure this runs as any non-root user (for OpenShift) 
 RUN chmod -R 777 /app
 USER 1001
 
 # Define command to be run when launching the container
 CMD ["python", "app.py"]
+

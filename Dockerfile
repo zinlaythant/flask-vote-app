@@ -9,7 +9,8 @@ MAINTAINER Stephen Bylo <StephenBylo@gmail.com>
 WORKDIR /app
 
 # Install python and pip
-RUN yum -y update && yum -y install epel-release && yum -y install python-pip && yum -y clean all
+#RUN yum -y update && yum -y install epel-release && yum -y install python-pip && yum -y clean all
+RUN                   yum -y install epel-release && yum -y install python-pip && yum -y clean all
 
 # Install MySQL-python (app dependencies) 
 RUN yum -y install MySQL-python && yum -y clean all
@@ -20,6 +21,9 @@ RUN pip install -r requirements.txt
 
 # Copy code from the current folder to /app inside the container
 ADD . /app
+
+# Remove any existing db data
+RUN rm -f /app/data/app.db
 
 # Expose the port server listen to
 EXPOSE 8080

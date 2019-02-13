@@ -1,0 +1,20 @@
+"spec": {
+    "triggers": [
+        {
+            "type": "ConfigChange"
+        },
+        {
+            "imageChangeParams": {
+                "automatic": false,
+                "containerNames": [
+                    "vote-app"
+                ],
+                "from": {
+                    "kind": "ImageStreamTag",
+                    "name": "vote-app:latest"
+                }
+            },
+            "type": "ImageChange"
+        }
+    ]
+}

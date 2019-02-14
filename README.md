@@ -84,3 +84,4 @@ An external MySQL database can be used instead of the internal sqlite by setting
                -d -p 80:5000  --name=vote flask-vote-app:latest
 
  Happy polling!
+

@@ -2,6 +2,7 @@ import os
 import random
 import json
 import socket
+import flask
 
 from datetime import datetime
 from flask import Flask, request, make_response, render_template
@@ -98,6 +99,13 @@ def vote():
 def results():
     results = Option.query.filter_by(poll_id=poll.id).all()
     return render_template('results.html', hostname=hostname, poll=poll, results=results)
+
+@app.route('/health')
+def health():
+    if cache['fail'] == 1:
+        flask.abort('500')
+    else:
+        return 'ok'
 
 @app.route('/fail')
 def fail():

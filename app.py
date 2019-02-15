@@ -85,7 +85,7 @@ def vote():
        vote_stamp = hex(random.getrandbits(64))[2:-1]
        print "Set coookie for voted"
        resp.set_cookie('vote_stamp', vote_stamp)
-    
+
     return resp
 
 @app.route('/results.html')
@@ -93,8 +93,20 @@ def results():
     results = Option.query.filter_by(poll_id=poll.id).all()
     return render_template('results.html', hostname=hostname, poll=poll, results=results)
 
+from flask import request
+def shutdown_server():
+    func = request.environ.get('werkzeug.server.shutdown')
+    if func is None:
+        raise RuntimeError('Not running with the Werkzeug Server')
+    func()
+
+@app.route('/shutdown')
+def shutdown():
+    shutdown_server()
+    return 'Server shutting down...'
+
 if __name__ == '__main__':
-    
+
     db.create_all()
     db.session.commit()
     hostname = socket.gethostname()
@@ -120,9 +132,10 @@ if __name__ == '__main__':
                    option = Option(i, poll, 0)
                    db.session.add(option)
                db.session.commit()
+
        except:
           print "Cannot load seed data from file"
           poll = Poll("", "")
-    
+
     app.run(host='0.0.0.0', port=8080, debug=False)
 

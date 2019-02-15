@@ -7,6 +7,9 @@ from datetime import datetime
 from flask import Flask, request, make_response, render_template
 from flask_sqlalchemy import SQLAlchemy
 
+cache = {}
+cache['fail'] = 0;
+
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
 dbhost  = os.environ.get('DB_HOST', '')
@@ -86,6 +89,9 @@ def vote():
        print "Set coookie for voted"
        resp.set_cookie('vote_stamp', vote_stamp)
 
+    if cache['fail'] == 1:
+        cause_some_failure(5)
+
     return resp
 
 @app.route('/results.html')
@@ -93,17 +99,10 @@ def results():
     results = Option.query.filter_by(poll_id=poll.id).all()
     return render_template('results.html', hostname=hostname, poll=poll, results=results)
 
-from flask import request
-def shutdown_server():
-    func = request.environ.get('werkzeug.server.shutdown')
-    if func is None:
-        raise RuntimeError('Not running with the Werkzeug Server')
-    func()
-
-@app.route('/shutdown')
-def shutdown():
-    shutdown_server()
-    return 'Server shutting down...'
+@app.route('/fail')
+def fail():
+    cache['fail'] = 1;
+    return 'Server failing ...'
 
 if __name__ == '__main__':
 
